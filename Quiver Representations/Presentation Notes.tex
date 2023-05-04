@@ -1,0 +1,197 @@
+\documentclass[10pt,a4paper]{report}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{makeidx}
+\usepackage{amsthm}
+\usepackage{tikz-cd}
+\usepackage{setspace}
+\doublespacing
+
+\newenvironment{psmallmatrix}
+  {\left(\begin{smallmatrix}}
+  {\end{smallmatrix}\right)}
+
+\newtheorem*{thm}{Theorem}
+
+\author{Noah Casey}
+\title{Introduction to Quiver Representations Notes}
+\begin{document}
+\subsection*{Quivers}
+	\indent A quiver $Q=(Q_{0},Q_{1},h,t)$ is defined as a four-tuple consisting of two sets and two functions. The set of vertices is $Q_{0}$, the set of arrows is $Q_{1}$, $h: Q_{1}\to Q_{0}$ is the function mapping arrows to their terminal point, and $t: Q_{1}\to \Q_{0}$ is the function mapping arrows to their starting point. We only consider finite sets $Q_{0},Q_{1}$.
+	
+	A quiver $Q$ as below
+	\[
+		\begin{tikzcd}
+		1 \arrow[r,"\alpha"] & 2
+		\end{tikzcd}
+	\] 
+	has $Q_{0}=\{1,2\}$, $Q_{1}=\{\alpha\}$, $h(\alpha) = 2$, and $t(\alpha)=1$.
+	
+	Quivers may also possess more complex structures such as double arrows and loops. Essentially any construction is allowed so long as each arrow has a starting and ending point. 
+	\[
+		\begin{tikzcd}
+		1 \arrow[out=135,in=225,loop, "\alpha"] \arrow[r,bend left, "\gamma"] \arrow[r,bend right, swap, "\beta"] & 2 
+		\end{tikzcd}
+	\]
+	
+\subsection*{Quiver Representations}
+	\indent A quiver representation is an object in the abelian $\mathbb{C}$-category Rep$(Q)$. An abelian category is a category that possesses some nice features such as a zero category, kernels and cokernels, short exact sequences, and direct sums. A quiver representation, $M=(M_{i},\varphi_{\alpha})_{i\in Q_{0},\alpha\in Q_{1}}$ is a collection of $\mathbb{C}$ vector spaces, one for each vertex of $Q$, and linear maps, one for each arrow of $Q$. 
+	
+	We define a morphism between two quiver representations $M,M'$, $f$, as a collection of mappings $(f_{i})_{i}\in Q_{0}$ where 
+	\[
+		\begin{tikzcd}
+		M_{i} \arrow[r,"\varphi_{\alpha}"] \arrow[d,swap,"f_{i}"] & M_{j} \arrow[d,"f_{j}"] \\
+		M'_{i} \arrow[r,"\varphi'_{\alpha}"] & M'_{j}
+		\end{tikzcd}
+	\]
+commutes for each $i,j\in Q_{0}$. That is, $f_{j}\varphi_{\alpha}=\varphi'_{\alpha}f_{i}$.
+
+	Concretely, consider the following two quiver representations
+	\[
+		M:\begin{tikzcd} \mathbb{C} \arrow[r,"1"] & \mathbb{C} \end{tikzcd} 
+	\]
+	\[
+		M':\begin{tikzcd} \mathbb{C}^{2} \arrow[r,"\begin{psmallmatrix} 1 & 0 \\ 1 & 0 \\ 0 & 0 \end{psmallmatrix}"] & \mathbb{C}^{3} \end{tikzcd} .
+	\]
+	Then we can construct a morphism $f=(f_{1},f_{2}):M\to M'$. We see that if we set $f_{1}=\begin{psmallmatrix}1\\0\end{psmallmatrix}$ and $f_{2}=\begin{psmallmatrix}1\\1\\0\end{psmallmatrix}$, then the diagram commutes.
+	\[
+		\begin{tikzcd}
+		\mathbb{C} \arrow[r,"1"] \arrow[d,swap,"f_{1}"] & \mathbb{C} \arrow[d,"f_{2}"] \\
+		\mathbb{C}^{2} \arrow[r,"\begin{psmallmatrix} 1 & 0 \\ 1 & 0 \\ 0 & 0 \end{psmallmatrix}"] & \mathbb{C}^{3}
+		\end{tikzcd}.
+	\]
+
+	Consider again the representations $M=(M_{i},\varphi_{\alpha})_{i}\in Q_{0}, M'=(M'_{i},\varphi'_{\alpha})_{i}\in Q_{0}$. We define the direct sum between $M$ and $M'$ as 
+	\[
+		M\oplus M' := (M_{i}\oplus M'_{i}, \begin{psmallmatrix}\varphi_{\alpha} & 0\\ 0 & \varphi'_{\alpha} \end{psmallmatrix}).
+	\]
+	
+	Consider the example where $Q$ is the quiver, 
+	\[
+		\begin{tikzcd}
+		1 \arrow[r,"\alpha"] & 2  & 3 \arrow[l,swap,"\beta"]
+		\end{tikzcd}
+	\]
+	with representations
+	\[ M:
+		\begin{tikzcd}
+		\mathbb{C} \arrow[r,"1"] & \mathbb{C} & 0 \arrow[l,swap,"0"]
+		\end{tikzcd}
+	\]
+	\[ M':
+		\begin{tikzcd}
+		\mathbb{C}^{2} \arrow[r,"\begin{psmallmatrix}1&1\\0&1\end{psmallmatrix}"] & \mathbb{C}^{2} & \mathbb{C} \arrow[l,swap,"\begin{psmallmatrix}1\\1\end{psmallmatrix}"].
+		\end{tikzcd}
+	\]
+	Then we can take their direct sum
+	\[ M\oplus M':
+		\begin{tikzcd}
+		\mathbb{C}\oplus\mathbb{C}^2 \arrow[r,"\begin{psmallmatrix}1&0&0\\0&1&1\\0&0&1\end{psmallmatrix}"] & \mathbb{C}\oplus\mathbb{C}^{2} & 0\oplus\mathbb{C} \arrow[l,swap,"\begin{psmallmatrix}0&0\\0&1\\0&1\end{psmallmatrix}"].
+		\end{tikzcd}
+	\]
+	Note that this direct sum is isomorphic to
+	\[
+		\begin{tikzcd}
+		\mathbb{C}^3 \arrow[r,"\begin{psmallmatrix}1&0&0\\0&1&1\\0&0&1\end{psmallmatrix}"] & \mathbb{C}^{3} & \mathbb{C} \arrow[l,swap,"\begin{psmallmatrix}0\\1\\1\end{psmallmatrix}"].
+		\end{tikzcd}
+	\]
+
+\subsection*{Path Algebra of a Quiver}
+	Let $Q$ be a quiver and $i,j\in Q_{0}$. We define a path $c$ from $i$ to $j$ of length $l$ as the sequence
+	\[
+		c = (i|\alpha_{1},\alpha_{2},...,\alpha_{l}|j)
+	\]
+	where each $\alpha_{n}\in Q_{1}$ for $n=1,...,l$. For this to be a well-defined path, each arrow must pick up where its predecessor left off, so we have the following conditions
+	\begin{align*}
+		t(\alpha_{1})&=i\\
+		h(\alpha_{n})&=t(\alpha_{n+1})\\
+		h(\alpha_{l})&=j.
+	\end{align*}
+	We also consider the path at vertex $i$ of length zero, which is called the lazy or constant path, denoted $e_{i}$. This path never leaves the vertex at which it originates.
+	
+	For example, we have the quiver
+	\[
+		\begin{tikzcd}
+		1 \arrow[out=135,in=225,loop,"\alpha"] \arrow[r,"\beta"] & 2  & 3 \arrow[l,swap,"\gamma"]
+		\end{tikzcd}
+	\]
+where we have the paths $(1|\alpha|1),(1|\alpha,\beta|2),(1|\alpha,\alpha,\beta|2)$, but we may not have a path which originates at vertex 1 and ends at vertex 3.
+
+	Now we define the path algebra of a quiver $Q$. We define the vector space $\mathbb{C}Q$ of $Q$ as an algebra with basis the set of all paths in $Q$. Because this vector space is extended to be an algebra, we define a multiplication between paths. Say $c,c'$ are two paths of $Q$, then
+	\[
+		cc' = 
+		\left\{
+		\begin{aligned}
+			&c\cdot c' \mathrm{\,if\,h(c)=t(c')}\\
+			&0\mathrm{\,otherwise}
+		\end{aligned}
+		\right. 
+	\]
+	We call this multiplication concatenation of paths. Specifically, if $c=(i_{1}|\alpha_{1},...,\alpha_{n}|j_{1})$ and $c'=(j_{2}|\beta_{1},...,\beta_{m}|j_{2})$ with $i_{1},i_{2},j_{1},j_{2}\in Q_{0}$ and $\alpha_{a},\beta_{b}\in Q_{1}$, then if $j_{1}=i_{2}$, then 
+	\[
+		c\cdot c' = (i_{1}|\alpha_{1},...,\alpha_{n},\beta_{1},...,\beta_{m}|j_{2}).
+	\]
+	The unity element of this algebra is the sum of all constant paths
+	\[
+		1_{\mathbb{C}Q}=\sum_{i\in Q_{0}}e_{i}.
+	\]
+	
+	Consider the quiver
+	\[
+		\begin{tikzcd}
+		1 \arrow[out=45,in=315,loop,"\alpha"]
+		\end{tikzcd}
+	\]
+	with representation
+	\[
+		\begin{tikzcd}
+		\mathbb{C} \arrow[out=45,in=315,loop,"x"]
+		\end{tikzcd}
+	\]
+We have the constant path, $e$ in addition to $x$, but we also have $x^{2},x^{3},..$. Note that this looks very similar to a polynomial. In fact, this representation is isomorphic to $\mathbb{C}[x]$.
+
+\subsection*{Some Category Theory Definitions}
+	For this section, consider two categories, $\mathcal{C},\mathcal{D}$.
+	
+	A covariant functor $\mathcal{F}:\mathcal{C}\to\mathcal{D}$ is a mapping such that for all $X\in \mathcal{C}$, $\mathcal{F}(X)\in\mathcal{D}$ and for all morphisms $f:X\to Y$ in $\mathcal{C}$, $\mathcal{F}(f):\mathcal{F}(X)\to\mathcal{F}(Y)$ in $\mathcal{D}$. 
+	
+	Consider two covariant functors $\mathcal{F},\mathcal{G}:\mathcal{C}\to\mathcal{D}$ and a natural transformation $\phi:\mathcal{F}\to\mathcal{G}$ that assigns each object $x\in\mathcal{C}$ a morphism $\phi_{X}:\mathcal{F}(X)\to\mathcal{G}(X)$ in $\mathcal{D}$ such that 
+	\[
+		\begin{tikzcd}
+		\mathcal{F}(X) \arrow[r,"\mathcal{F}(f)"] \arrow[d,swap,"\phi_{X}"] & \mathcal{F}(Y) \arrow[d,"\phi_{Y}"] \\
+		\mathcal{G}(X) \arrow[r,"\mathcal{G}(f)"] & \mathcal{G}(Y)
+		\end{tikzcd}
+	\]
+commutes. If $\phi_{X}$ is isomorphic for all $X\in\mathcal{C}$, then $\phi$ is a natural isomorphism and we say that $\mathcal{F}$ is naturally isomorphic to $\mathcal{G}$. 
+
+	We consider two categories $\mathcal{C},\mathcal{D}$ to be equivalent if there exist two functors $\mathcal{F}, \mathcal{G}$ where $\mathcal{F}:\mathcal{C}\to \mathcal{D}$ and $\mathcal{G}:\mathcal{D}\to\mathcal{C}$ such that $\mathcal{F}\circ\mathcal{G}$ is naturally isomorphic to $1_{\mathcal{D}}$ and $\mathcal{G}\circ\mathcal{F}$ is naturally isomorphic to $1_{\mathcal{C}}$.
+
+\begin{thm}
+The categories Rep$(Q)$ and $\mathbb{C}Q$-mod are equivalent.
+\end{thm}
+\begin{proof}
+	Set a functor $\mathcal{F}:\mathbb{C}Q-\mathrm{mod}\to \mathrm{Rep}(Q)$. If $M$ is a $\mathbb{C}Q$-module, then $\mathcal{F}(M)$ is a quiver representation. For each vertex $i\in Q_{0}$, we have 
+	\[
+		\mathcal{F}(M)(i)=e_{i}M
+	\]
+and for each arrow $\alpha\in Q_{1}$, we have
+	\[
+		\mathcal{F}(M)(a):e_{t(\alpha)}M\to e_{h(\alpha)}M.
+	\]
+Now consider $\phi:M\to N$ a morphism of $\mathbb{C}Q$-modules. Then, $\mathcal{F}(\phi)$ is defined as the map $\phi_{i}:M_{i}\to M'_{i}$ sending $me_{i}$ to $\phi(m)e_{i}$. 
+
+	Now set a functor $\mathcal{G}:\mathrm{Rep}(Q)\to\mathbb{C}Q-\mathrm{mod}$. If $V$ is a quiver representation, then $\mathcal{G}(V)$ is a $\mathbb{C}Q-\mathrm{module}$ such that 
+	\[
+		\mathcal{F}(V)=\oplus_{i\in Q_{0}}V_{i}.
+	\]
+If $p$ is a path in $\mathbb{C}Q-\mathrm{mod}$ with $v\in V_{i}$, then $p\cdot v = V(p)v$ if $t(p)=i$ and 0 otherwise. This gives $\mathcal{G}(V)$ the structure of a $\mathbb{C}Q$-module. Let $\psi: V\to W$ be a morphism of representations, then
+	\[
+		\mathcal{G}(\psi)(m)=(\psi_{i}(m_{i}))_{i\in Q_{0}}.
+	\]
+
+	It is easy to see that $\mathcal{F}\circ\mathcal{G}$ is naturally isomorphic to $1_{\mathcal{D}}$ and $\mathcal{G}\circ\mathcal{F}$ is naturally isomorphic to $1_{\mathcal{C}}$.
+\end{proof}
+
+\end{document}
