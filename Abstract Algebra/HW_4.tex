@@ -1,0 +1,314 @@
+\documentclass[10pt,a4paper]{report}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{makeidx}
+\usepackage{setspace}
+\usepackage{titlesec}
+\usepackage{tikz}
+\usepackage{xparse}
+\usetikzlibrary{positioning}
+
+\newcommand{\inn}{\operatorname{Inn}}
+\newcommand{\aut}{\operatorname{Aut}}
+%\newcommand{\ker}{\operatorname{Ker}}
+\renewcommand\thesubsection{\alph{subsection}}
+\renewcommand\thesection{\arabic{section}}
+\titleformat{\subsection}[runin]{\normalfont\large\bfseries}{\thesubsection}{1em}{}
+\titleformat{\section}[runin]{\normalfont\Large\bfseries}{\thesection}{1em}{}
+
+\ExplSyntaxOn
+\NewDocumentCommand{\cycle}{ O{\;} m }
+ {
+  (
+  \alec_cycle:nn { #1 } { #2 }
+  )
+ }
+
+\seq_new:N \l_alec_cycle_seq
+\cs_new_protected:Npn \alec_cycle:nn #1 #2
+ {
+  \seq_set_split:Nnn \l_alec_cycle_seq { , } { #2 }
+  \seq_use:Nn \l_alec_cycle_seq { #1 }
+ }
+\ExplSyntaxOff
+
+\doublespacing
+\begin{document}
+
+\begin{center}
+\textbf{Noah Casey}\\
+\textbf{MATH 4720}\\
+\textbf{Homework 4}
+\end{center}
+
+\section{}
+\underline{By using Euler’s Theorem, show that if $p = 4n + 3$ is a prime integer, }\newline
+\underline{there is no solution to the
+equation $x^{2} \equiv -1\pmod{p}$}\newline
+\indent We know that $p$ is prime, so for any $x\in\mathbb{Z}$, $\gcd(x,p)=1$. Thus, we can proceed using Euler's Theorem. For any $p$ prime, the Euler-phi function $\phi(p)=p-1$, so in this case, $\phi(p)=4n+2$. By Euler's theorem, $x^{4n+2}\equiv 1\pmod{p}$. Now take $x^{4n+3-1}\equiv x^{4n+3}x^{-1}\equiv 1\pmod(p)$. Thus, we can write $x^{4n+3}\equiv x \pmod{p}$ by multiplication modulo $p$ Thus, $x=0$ as $x^{p}\equiv 0 \pmod{p}$. If $x=0$ and $4n+3\geq 3$, $x^{2}$ cannot be congruent to -1 modulo $p$.
+
+\section{}
+\underline{Let $\alpha : G \mapsto H$ be a group homomorphism.}\newline
+
+    \subsection{}
+    \underline{If $G$ is abelian, show that $\alpha(G)$ is an abelian subgroup of $G$.}\newline
+    \indent  Assume $G$ is abelian. Then we know that for any $a,b\in G$, $a+b=b+a$. Now consider $\alpha(a)+\alpha(b)$. 	As $\alpha$ is a homomorphism, this is $\alpha(a+b)$. $G$ is abelian, so this is $\alpha(b+a)=\alpha(b)+\alpha(a)$, 
+    and $\alpha(G)$ is abelian. We now show that this is a subgroup of $G$. We know that $\alpha(G)$ contains the identity as $\alpha:e_{G}\mapsto e_{\alpha(G)}$. Furthermore, for any $h=\alpha(g)$, we know that the inverse exists as $\alpha(g^{-1})=(\alpha(g)^{-1})=h^{-1}$. Now take some $h_{1}=\alpha(g_{1})$ and $h_{2}=\alpha(g_{2})$. Then we show that $h_{1}h_{2}$ is in $\alpha(G)$. Using the properties of homomorphisms, $h_{1}h_{2}=\alpha(g_{1})\alpha(g_{2})=\alpha(g_{1}g_{2})$, which is clearly in $\alpha(G)$. Thus, $\alpha(G)$ is an abelian subgroup of $G$.
+
+    \subsection{}
+    \underline{Is it possible for $\alpha(G)$ to be non-trivial and abelian if $G$ is non-abelian?}\newline
+    \indent	Is there some $\alpha$ such that $\alpha(a)+\alpha(b)=\alpha(b)+\alpha(a)$ when $ab\neq ba$? Assume that we can. Then using the properties of a homomorphism,
+    \[
+    	\alpha(a)+\alpha(b)=\alpha(ab)=\alpha(ba)=\alpha(b)+\alpha(a).
+    \]
+    However, 
+    \begin{align*}
+    	\alpha(ab) &= \alpha(ba) \\
+    	\alpha(ab)\bigl(\alpha(ba)\bigr)^{-1} &= id \\
+    	\alpha(ab)\alpha(a^{-1}b^{-1}) &= id \\
+    	\alpha(aba^{-1}b^{-1}) &= id,
+    \end{align*}
+    which is clearly not true as $aba^{-1}b^{-1}\neq e$, which is necessary in a homomorphism as the identity maps to the identity.
+  
+
+\section{}
+\underline{Suppose that $G_{1} \cong H_{1}$ and $G_{2} \cong H_{2}$. Show that $G_{1}\mathsf{x}G_{2} \cong H_{1}\mathsf{x}H_{2}$.}\newline
+\indent Let $\alpha: G_{1}\mapsto H_{1}$ and $\beta: G_{2} \mapsto H_{2}$ be isomorphisms. Then if $(g_{1},g_{2})\in G_{1}\mathsf{x}G_{2}$, we must find an isomorphism to $(h_{1},h_{2})\in H_{1}\mathsf{x}H_{2}$, which will show that these are isomorphic as the points are arbitrary. Let $\varphi: G_{1}\mathsf{x}G_{2} \mapsto H_{1}\mathsf{x}H_{2}$ be defined as $\varphi(g_{1},g_{2})=(\alpha(g_{1}),\beta(g_{2})$ for some $(g_{1},g_{2})\in G_{1}\mathsf{x}G_{2}$. \newline
+\indent We first show that $\varphi$ is a homomorphism. Let $(g_{1}g_{1}^{*},g_{2}g_{2}^{*})\in G_{1}\mathsf{x}G_{2}$, then using the fact that $\alpha$ and $\beta$ are isomorphisms,
+\begin{align*}
+	\varphi(g_{1}g_{1}^{*},g_{2}g_{2}^{*})&= \Bigl(\alpha(g_{1}g_{1}^{*}),\beta(g_{2}g_{2}^{*})\Bigr)\\
+									&= \Bigl(\alpha(g_{1})\alpha(g_{1}^{*}),\beta(g_{2})\beta(g_{2}^{*})\Bigr)\\
+									&= \Bigl(\alpha(g_{1}),\beta(g_{2})\Bigr)\Bigl(\alpha(g_{1}^{*}),\beta(g_{2}^{*})\Bigr) \\
+									&= \varphi(g_{1},g_{2})\varphi(g_{1}^{*},g_{2}^{*}).
+\end{align*}
+\newline
+\indent We now show that $\varphi$ is bijective. Let $\varphi(g_{1},g_{2})=\varphi(g_{1}^{*},g_{2}^{*})$, then $\Bigl(\alpha(g_{1}),\beta(g_{2})\Bigr)=\Bigl(\alpha(g_{1}^{*}),\beta(g_{2}^{*})\Bigr)$. This means that $\alpha(g_{1})=\alpha(g_{1}^{*})$ and $\beta(g_{2})=\beta(g_{2}^{*})$. As $\alpha$ and $\beta$ are isomorphisms, they are injective, so we get that $g_{1}=g_{1}^{*}$ and $g_{2}=g_{2}^{*}$ and $(g_{1},g_{2})=(g_{1}^{*},g_{2}^{*})$. Thus, $\varphi$ is injective. Now let $(h_{1},h_{2})\in H_{1}\mathsf{x}H_{2}$. As $\alpha$ and $\beta$ are surjective, $\alpha(g_{1})=h_{1}$ and $\beta(g_{2})=h_{2}$, so $\Bigl(\alpha(g_{1}),\beta(g_{2})\Bigr)=(h_{1},h_{2})$ and $\varphi(g_{1}, g_{2})=(h_{1},h_{2})$, so $\varphi$ is surjective. As $\varphi$ is a homomorphism and also a bijective map, it is an isomorphism, proving that $G_{1}\mathsf{x}G_{2} \cong H_{1}\mathsf{x}H_{2}$.
+
+
+\section{}
+\underline{Prove that $\mathbb{R}^{*}$ is not congruent to $\mathbb{C}^{*}$.}\newline
+\indent Assume there exists an isomorphism $\varphi:\mathbb{R}^{*}\mapsto\mathbb{C}^{*}$. From linear algebra, we know that mappings can be written as matrices, so write $\varphi = A$ such that $\varphi(r)=Ar$. As $\mathbb{R}^{*}$ is one-dimensional and $\mathbb{C}^{*}$ is two-dimensional, $A$ is a 2$\mathsf{x}$1 matrix. Recall that matrices only have inverses if they are square; in other words, their dimension must be n$\mathsf{x}$n. Note that $A$ is not square, so it is singular. Thus, it is not a bijective mapping from $\mathbb{R}^{*}\mapsto\mathbb{C}^{*}$. Thus, $\varphi$ has no inverse, and it cannot be an isomorphism. Hence, $\mathbb{R}^{*}$ is not congruent to $\mathbb{C}^{*}$.
+
+\section{}
+\underline{Let $T$ be the subgroup of $GL_{2}(\mathbb{R})$ consisting of upper-triangular matrices.}\newline
+\underline{ Let $U=$
+\big(\begin{smallmatrix}
+  1 & x\\
+  0 & 1
+\end{smallmatrix}\big) $|x\in\mathbb{R}\}\subset T$.}\newline
+
+	\subsection{}
+	\underline{Show that $U<T$.}\newline
+	\indent We proceed by the first subgroup test. We know that $U$ contains the identity matrix, 
+	\big(\begin{smallmatrix}
+  		1 & 0\\
+  		0 & 1
+	\end{smallmatrix}\big). Also, for some 
+	\big(\begin{smallmatrix}
+ 		1 & x\\
+  		0 & 1
+	\end{smallmatrix}\big)$\in U$, we know that its inverse, 
+	\big(\begin{smallmatrix}
+ 		 1 & -x\\
+ 		 0 & 1
+	\end{smallmatrix}\big)$\in U$. Furthermore, for some $A,B\in U$ such that $A=$
+	\big(\begin{smallmatrix}
+ 		 1 & a\\
+ 		 0 & 1
+	\end{smallmatrix}\big) and $B=$
+	\big(\begin{smallmatrix}
+ 		 1 & b\\
+ 		 0 & 1
+	\end{smallmatrix}\big), we know that $AB=$
+	\big(\begin{smallmatrix}
+		  1 & a+b\\
+		  0 & 1
+	\end{smallmatrix}\big), which is in $U$. Hence, $U<T$.
+	
+	\subsection{}
+	\underline{Prove that $U$ is abelian.}\newline
+	\indent Let $A=$
+	\big(\begin{smallmatrix}
+ 		 1 & a\\
+ 		 0 & 1
+	\end{smallmatrix}\big) and $B=$
+	\big(\begin{smallmatrix}
+ 		 1 & b\\
+ 		 0 & 1
+	\end{smallmatrix}\big). Then $AB=$
+	\big(\begin{smallmatrix}
+ 		 1 & a+b\\
+ 		 0 & 1
+	\end{smallmatrix}\big). Now take $BA=$
+	\big(\begin{smallmatrix}
+ 		 1 & b+a\\
+ 		 0 & 1
+	\end{smallmatrix}\big), but as the entries of matrices in $U$ are in $\mathbb{R}$, $a+b=b+a$ and 
+	\big(\begin{smallmatrix}
+ 		 1 & a+b\\
+ 		 0 & 1
+	\end{smallmatrix}\big)=
+		\big(\begin{smallmatrix}
+ 		 1 & b+a\\
+ 		 0 & 1
+	\end{smallmatrix}\big). Thus $AB=BA$ and $U$ is abelian.
+	
+	\subsection{}
+	\underline{Prove that $U$ is normal in $T$.}\newline
+	\indent By Theorem G22, $U$ is normal if for all $A\in T$, $AUA^{-1}\subset U$. Let $A\in T$ such that $A=$
+	\big(\begin{smallmatrix}
+ 		 a & b\\
+ 		 0 & c
+	\end{smallmatrix}\big), so $A^{-1}=\frac{1}{ac}$
+	\big(\begin{smallmatrix}
+ 		 c & -b\\
+ 		 0 & a
+	\end{smallmatrix}\big) Also let $N$ be an arbitrary element of $U$ such that $U=$
+	\big(\begin{smallmatrix}
+ 		 1 & n\\
+ 		 0 & 1
+	\end{smallmatrix}\big). Then if $ANA^{-1}\in U$, we are done. 
+	\begin{align*}
+		\frac{1}{ac}
+		\begin{pmatrix}
+			a & b\\
+			0 & c
+		\end{pmatrix}
+		\begin{pmatrix}
+			1 & n\\
+			0 & 1
+		\end{pmatrix}
+		\begin{pmatrix}
+			c & -b\\
+			0 & a
+		\end{pmatrix}
+		 &=  
+		\frac{1}{ac}
+		\begin{pmatrix}
+			a & b\\
+			0 & c
+		\end{pmatrix}
+		\begin{pmatrix}
+			c & -b+na\\
+			0 & a
+		\end{pmatrix} \\
+		&= 
+		\frac{1}{ac}
+		\begin{pmatrix}
+			ac & a(-b+na)+ab\\
+			0 & ac
+		\end{pmatrix} \\
+		&=
+		\begin{pmatrix}
+			1 & \frac{na}{c}\\
+			0 & 1
+		\end{pmatrix}\in U.
+	\end{align*}
+	
+	\subsection{}
+	\underline{Show that $T/U$ is abelian.}\newline
+	\indent First, we concretely state what it means for $T/U$ to be abelian. Let $A,B$ be matrices in T. If $T/U$ 			is abelian, then $(AU)(BU)=(AB)U=(BA)U=(BU)(AU)$. Let $A=$
+	\big(\begin{smallmatrix}
+ 		 a & b\\
+ 		 0 & c
+	\end{smallmatrix}\big) and let $B=$
+	\big(\begin{smallmatrix}
+ 		 d & e\\
+ 		 0 & f
+	\end{smallmatrix}\big). Hence, $AB=$
+	\big(\begin{smallmatrix}
+ 		 ad & ae+bf\\
+ 		 0 & cf
+	\end{smallmatrix}\big) and $BA=$
+	\big(\begin{smallmatrix}
+ 		 ad & db+ec\\
+ 		 0 & cf
+	\end{smallmatrix}\big). It must be shown that these lie in the same coset ($(AB)U=(BA)U$) for $T/U$ to be abelian. In fact, these two matrices both lie in the coset of matrices of the form 
+	\big(\begin{smallmatrix}
+ 		 ad & x\\
+ 		 0 & cf
+	\end{smallmatrix}\big) for $x\in\mathbb{R}$. We know this is a coset as both of these matrices may be found by multiplying 
+	\big(\begin{smallmatrix}
+ 		 ad & 1\\
+ 		 0 & cf
+	\end{smallmatrix}\big) by some element in $U$ as all real numbers $x$ are accounted for in the first rows and second columns of the matrices in $U$. Thus, $T/U$ is abelian.
+	
+	\subsection{}
+	\underline{Is $U$ normal in $GL_{2}(\mathbb{R})$?}\newline
+	\indent Set $A\in GL_{2}(\mathbb{R})$ such that $A=$
+	\big(\begin{smallmatrix}
+ 		 a & b\\
+ 		 c & d
+	\end{smallmatrix}\big) such that $ab-bc\neq 0$. Also set $N\in U$ such that $N=$
+	\big(\begin{smallmatrix}
+ 		 1 & n\\
+ 		 0 & 1
+	\end{smallmatrix}\big). Then
+		\begin{align*}
+		\frac{1}{ad-bc}
+		\begin{pmatrix}
+			a & b\\
+			c & d
+		\end{pmatrix}
+		\begin{pmatrix}
+			1 & n\\
+			0 & 1
+		\end{pmatrix}
+		\begin{pmatrix}
+			d & -b\\
+			-c & a
+		\end{pmatrix}
+		 &=  
+		\frac{1}{ad-bc}
+		\begin{pmatrix}
+			a & b\\
+			c & d
+		\end{pmatrix}
+		\begin{pmatrix}
+			d-cn & -b+na\\
+			-c & a
+		\end{pmatrix} \\
+		&= 
+		\frac{1}{ad-bc}
+		\begin{pmatrix}
+			ad-acn-bc & -ab+a^{2}n+ab\\
+			cd-c^{2}n-cd & -cb+can+ad
+		\end{pmatrix} \\
+	\end{align*}
+	We stop here as we see that $cd-c^{2}n-cd=c^{2}n$, and $c^{2}$ nor $n$ is necessarily 0, so the matrix is not 			necessarily upper triangular, and therefore not necessarily in $U$. Thus, $U$ is not normal in $GL_{2}(\mathbb{R})$.
+	
+\section{}
+\underline{Let $G$ be a group. Let $\inn(G)=\{i_{g}|g\in G\}$. We know that this is a subgroup of $\aut(G)$.}\newline
+
+	\subsection{}
+	\underline{Show that $\alpha:G\mapsto \aut{G}$ given by $\alpha(g)=i_{g}$ is a group homomorphism.}\newline
+	\indent Recall that $i_{g}(x)=gxg^{-1}$. Let $g_{1},g_{2}\in G$, then using properties of inverses, we see that 
+		\begin{align*}
+			\alpha(g_{1})\alpha(g_{2})(x) &= i_{g_{1}}\circ i_{g_{2}}(x) \\
+										&= g_{1}g_{2}x g_{2}^{-1}g_{1}^{-1} \\
+										&= g_{1}g_{2}x (g_{1}g_{2})^{-1} \\
+										&= i_{g_{1}g_{2}} \\
+										&= \alpha(g_{1}g_{2}).
+		\end{align*} 
+	Hence, $\alpha$ is a group homomorphism.
+	
+	\subsection{}
+	\underline{Justify that $\inn(G)$ is a subgroup of $\aut(G)$.}\newline
+	\indent  We first ensure that $\alpha$ is onto $\inn(G)$. Let $i_{g}$ be some inner automorphism on $G$, then $i_{g}=\alpha(g)$. Thus, $\alpha(G)=\inn(G)$. By proposition G18, using the fact that $G$ is a subgroup of $G$ and $\alpha$ is a homomorphism, $\alpha(G)<\aut(G)$. In particular, because $\alpha$ is onto $\inn(G)$, $\alpha(G)=\inn(G)<\aut(G)$.
+	
+	\subsection{}
+	\underline{Show that $\ker(\alpha)=C(G)$, where $C(G)$ is the center of $G$.}\newline
+	\indent Letting $id:G\mapsto G$ be the identity mapping. We see that 
+	\begin{align*}
+		\ker(\alpha) &= \{g\in G|i_{g}=id\} \\
+					 &= \{gxg^{-1}=id(x)|x\in G\}
+	\end{align*}
+	But recall that $C(G)=\{x\in G|\forall h\in G,gh=hg\}$. Thus, $\ker(\alpha) = \{gxg^{-1}=id(x)|x\in G, g\in C(G)\}$ as if $g\in C(G)$, $gxg^{-1}=xgg^{-1}=xe=x=id(x)$. Hence, $\ker(\alpha)=C(G)$.
+	
+	\subsection{}
+	\underline{Show that $\inn(G)\cong G/C(G)$.}\newline
+	\indent Equivalently, we prove that $\inn(G)\cong G/\ker(\alpha)$. Recall that $\alpha$ is a homomorphism from $G$ to $\aut(G)$, in particular, $\alpha$ is onto $\inn(G)$. Let $\phi$ be the canonical homomorphism from $G$ to $G/\ker(\alpha)$. Thus, there exists an isomorphism $\eta:G/\ker(\alpha)\mapsto \inn(G)$ by the first isomorphism theorem and $\inn(G)\cong G/\ker(\alpha)=G/C(G)$ as desired.
+	
+\end{document}

@@ -1,0 +1,81 @@
+\documentclass[10pt,a4paper]{report}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{makeidx}
+\usepackage{setspace}
+\usepackage{titlesec}
+\usepackage{tikz}
+\usepackage{xparse}
+\usetikzlibrary{positioning}
+
+\newcommand{\inn}{\operatorname{Inn}}
+%\newcommand{\lcm}{\operatorname{lcm}
+\newcommand{\aut}{\operatorname{Aut}}
+%\newcommand{\ker}{\operatorname{Ker}}
+\renewcommand\thesubsection{\alph{subsection}}
+\renewcommand\thesection{\arabic{section}}
+\titleformat{\subsection}[runin]{\normalfont\large\bfseries}{\thesubsection}{1em}{}
+\titleformat{\section}[runin]{\normalfont\Large\bfseries}{\thesection}{1em}{}
+
+\ExplSyntaxOn
+\NewDocumentCommand{\cycle}{ O{\;} m }
+ {
+  (
+  \alec_cycle:nn { #1 } { #2 }
+  )
+ }
+
+\seq_new:N \l_alec_cycle_seq
+\cs_new_protected:Npn \alec_cycle:nn #1 #2
+ {
+  \seq_set_split:Nnn \l_alec_cycle_seq { , } { #2 }
+  \seq_use:Nn \l_alec_cycle_seq { #1 }
+ }
+\ExplSyntaxOff
+
+\doublespacing
+\begin{document}
+
+\begin{center}
+\textbf{Noah Casey}\\
+\textbf{MATH 4720}\\
+\textbf{Homework 5}
+\end{center}
+
+\section{}
+Let $G$ be a finite group and $G$ a normal subgroup of $G$. Let $H'$ be a subgroup of $G/N$ and let $H1$ = $\pi^{-1}(H′)$ be the corresponding subgroup of $G$ via the Correspondence Theorem. Show that $|H1| = |H′|\cdot|N|$.\newline
+
+\section{}
+In the group $\mathbb{Z}_{40}$, let $H=\langle 4 \rangle$ and $N=\langle 10 \rangle$. \newline
+
+	\subsection{}
+	Find the elements of $H+N$ and $H\cap N$. \newline
+	\begin{align*}
+		H+N &= \langle 4 \rangle + \langle 10 \rangle \\
+		s&= \langle 14 \rangle\\
+		s&= \{ 14,28,2,16,30,4,18,32,6,20,34,8,22,36,10,24,38,12,26,0\} \\
+		s&= \{0,2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38\}\\
+		\endgroup
+		H \cap N &= \langle \mathrm{\lcm}(4,10) \rangle \\
+		s&= \{0,20\}
+	\end{align*}
+	
+	\subsection{}
+	List the cosets of $\frac{H+N}{N}$.\newline
+	Note that this quotient group is $a + N$ for all $a\in H+N$.
+	\[
+	\frac{H+N}{N} = \{\{0,10,20,30\},\{2,12,22,32\},\{4,14,24,34\},\{6,16,26,36\},\{8,18,28,38\}\}.
+	\]
+	
+	\subsection{}
+	List the cosets of $\frac{H}{H\cap N}$.
+	Note that this is $a + N$ for all $a\in H\cap N$.
+	\[
+	\frac{H+N}{N} = \{\{0,20\},\{4,24\},\{8,28\},\{12,32\},\{16,36\}\}
+	\]
+	
+		
+
+\end{document}
